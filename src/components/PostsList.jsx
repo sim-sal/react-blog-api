@@ -28,7 +28,7 @@ export default function PostsList() {
                 {posts.map((post) => (
                     <div key={post.id} className={`col-5 mx-5 my-5 card ${style.mod_card}`}>
 
-                        <img className={style.card_img} src={post.image} alt="Post" />
+                        <img className={style.card_img} src={post.image ? post.image : "/image_not_found.jpg"} alt="Post" />
 
                         <div className={style.card_main}>
                             <div className={style.card_header}>
@@ -41,18 +41,22 @@ export default function PostsList() {
 
                             </div>
 
-                            <p>{post.content}</p>
+                            <p>{post.content ? post.content : "Contenuto non disponibile"}</p>
 
                             <div>
                                 <h5>Categoria:</h5>
-                                <span>{post.category.name}</span>
+                                <span>{post.category ? post.category.name : "Categoria non disponibile"}</span>
                             </div>
 
                             <div>
                                 <h5>Tag:</h5>
-                                {post.tags.map((tag, index) => (
-                                    <span key={index}>#{tag.name} </span>
-                                ))}
+                                {post.tags ? (
+                                    post.tags.map((tag, index) => (
+                                        <span key={index}>#{tag.name} </span>
+                                    ))
+                                ) : (
+                                    <span>Tags non disponibili</span>
+                                )}
                             </div>
                         </div>
                     </div>
