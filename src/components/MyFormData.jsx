@@ -59,19 +59,22 @@ export default function MyFormData() {
         <div className={style.container_fluid_mod}>
 
             <div className={style.my_form}>
-                <button
-                    className={`btn btn-primary ${style.fab_button}`}
-                    onClick={() => setFormVisible(!formVisible)}
-                >
-                    <FontAwesomeIcon icon={formVisible ? "fa-solid fa-times" : "fa-solid fa-pen"} />
-                </button>
 
-                <h1 className="text-center text-light"><strong>CREA NUOVO POST</strong></h1>
+                <div>
+                    <button
+                        className={`btn btn-primary ${style.fab_button}`}
+                        onClick={() => setFormVisible(!formVisible)}
+                    >
+                        <FontAwesomeIcon icon={formVisible ? "fa-solid fa-times" : "fa-solid fa-pen"} />
+                    </button>
+
+                    <h1 className="text-light"><strong>CREA NUOVO POST</strong></h1>
+                </div>
 
                 {formVisible && (  // Mostro il form solo se formVisible è true
                     <form onSubmit={handleFormSubmit}>
 
-                        <div className="mb-3">
+                        <div className="mb-3 mt-3">
                             <label htmlFor="titlePost" className="form-label">
                                 <FontAwesomeIcon icon="fa-solid fa-tornado" />
                                 <strong> Titolo:</strong>
