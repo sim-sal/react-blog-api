@@ -14,44 +14,47 @@ const initialFormData = {
 
 export default function MyFormData() {
 
-    const [postsList, setPostsList] = useState([]);
     const [formData, setFormData] = useState(initialFormData);
     const [formVisible, setFormVisible] = useState(false); // Stato per gestire la visibilità del form
     const [tagsList, setTagsList] = useState([]);
 
 
-    function handleFormSubmit(e) {
+    async function handleFormSubmit(e) {
         e.preventDefault();
 
-        setPostsList([...postsList, { ...formData, id: crypto.randomUUID() }]);
-
-        setFormData(initialFormData);
+        const response = await fetch("http://localhost:3000/posts", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
     }
 
     function handleInputChange(e, key) {
         const { value, checked, type } = e.target;
 
         if (key === "tags") {
-            // Se la chiave è "tags", gestisci l'array di tag
+            // Se la chiave è "tags", gestisco l'array di tag
             setFormData(prev => {
-                let currentTags = [...prev.tags]; // Crea una copia dell'array esistente
+                let currentTags = [...prev.tags]; // Creo una copia dell'array esistente
 
                 if (checked) {
-                    // Aggiungi il tag se è stato selezionato
+                    // Aggiungo il tag se è stato selezionato
                     currentTags.push(value);
                 } else {
-                    // Rimuovi il tag se è stato deselezionato
+                    // Rimuovo il tag se è stato deselezionato
                     currentTags = currentTags.filter(tag => tag !== value);
                 }
 
-                // Restituisci il nuovo stato
+                // Restituisco il nuovo stato
                 return {
                     ...prev,
                     [key]: currentTags
                 };
             });
         } else {
-            // Se la chiave non è "tags", gestisci normalmente
+            // Se la chiave non è "tags", gestisco normalmente
             setFormData(prev => {
                 return {
                     ...prev,
@@ -90,7 +93,7 @@ export default function MyFormData() {
                 </div>
 
                 {formVisible && (  // Mostro il form solo se formVisible è true
-                    <form onSubmit={handleFormSubmit}>
+                    <form onSubmit={handleFormSubmit} id='postForm'>
 
                         <div className="mb-3 mt-3">
                             <div>
@@ -183,7 +186,7 @@ export default function MyFormData() {
                         </div>
 
                         <div className='d-flex'>
-                            <button type="submit" className={`btn btn-primary my-4 ${style.btn_mod}`}>
+                            <button type="submit" className={`btn btn-primary my-4 ${style.btn_mod}`} form='postForm'>
                                 Crea Post
                             </button>
                         </div>
