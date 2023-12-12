@@ -167,7 +167,7 @@ export default function MyFormData() {
                                 </label>
                                 <div className="row">
                                     {tagsList.map(tag => {
-                                        return <div key={tagresol.id} className="col-3">
+                                        return <div key={tag.id} className="col-3">
                                             <label key={tag.id}>
                                                 {tag.name}
 
