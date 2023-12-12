@@ -15,6 +15,19 @@ export default function PostsList() {
         setPosts(data);
     }
 
+    async function removePost(postSlug) {
+        const response = await fetch(`http://localhost:3000/posts/${postSlug}`, {
+            method: "delete",
+        });
+
+        if (response.ok) {
+            // Rimuovo il post dalla lista locale
+            setPosts(posts.filter(post => post.slug !== postSlug));
+        } else {
+            console.error("Errore durante l'eliminazione del post");
+        }
+    }
+
     useEffect(() => {
         if (!initialFetchDone) {
             initialFetchDone = true;
@@ -35,7 +48,7 @@ export default function PostsList() {
 
                                 <h3>{post.title}</h3>
 
-                                <button className={style.delete_button} onClick={() => removePost(post.id)}>
+                                <button className={style.delete_button} onClick={() => removePost(post.slug)}>
                                     <FontAwesomeIcon icon="fa-solid fa-trash" />
                                 </button>
 
@@ -51,8 +64,8 @@ export default function PostsList() {
                             <div>
                                 <h5>Tag:</h5>
                                 {post.tags ? (
-                                    post.tags.map((tag, index) => (
-                                        <span key={index}>#{tag.name} </span>
+                                    post.tags.map((tag) => (
+                                        <span key={tag.id}>{tag.name} </span>
                                     ))
                                 ) : (
                                     <span>Tags non disponibili</span>
