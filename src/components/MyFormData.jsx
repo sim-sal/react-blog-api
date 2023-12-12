@@ -97,7 +97,7 @@ export default function MyFormData() {
 
                         <div className="mb-3 mt-3">
                             <div>
-                                <label htmlFor="titlePost" className="form-label">
+                                <label htmlFor="title" className="form-label">
                                     <FontAwesomeIcon icon="fa-solid fa-tornado" />
                                     <strong> Titolo:</strong>
                                 </label>
@@ -105,14 +105,15 @@ export default function MyFormData() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Inserisci qui il titolo del post"
-                                    name="title_input"
+                                    id="title"
+                                    name="title"
                                     value={formData.title}
                                     onChange={(e) => handleInputChange(e, "title")}
                                 ></input>
                             </div>
 
                             <div>
-                                <label htmlFor="imgPost" className="form-label">
+                                <label htmlFor="img" className="form-label">
                                     <FontAwesomeIcon icon="fa-solid fa-image" />
                                     <strong> URL Immagine:</strong>
                                 </label>
@@ -120,14 +121,15 @@ export default function MyFormData() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Inserisci l'URL dell'immagine"
-                                    name="img_input"
+                                    id="img"
+                                    name="img"
                                     value={formData.image}
                                     onChange={(e) => handleInputChange(e, "image")}
                                 ></input>
                             </div>
 
                             <div>
-                                <label htmlFor="contentPost" className="form-label">
+                                <label htmlFor="content" className="form-label">
                                     <FontAwesomeIcon icon="fa-solid fa-box-open" />
                                     <strong> Contenuto:</strong>
                                 </label>
@@ -135,14 +137,15 @@ export default function MyFormData() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Inserisci qui il contenuto del post"
-                                    name="content_input"
+                                    id="content"
+                                    name="content"
                                     value={formData.content}
                                     onChange={(e) => handleInputChange(e, "content")}
                                 ></input>
                             </div>
 
                             <div>
-                                <label htmlFor="categoryPost" className="form-label">
+                                <label htmlFor="category" className="form-label">
                                     <FontAwesomeIcon icon="fa-solid fa-certificate" />
                                     <strong> Categoria:</strong>
                                 </label><br />
@@ -150,26 +153,28 @@ export default function MyFormData() {
                                     type="text"
                                     className="form-control"
                                     placeholder="Inserisci la categoria"
-                                    name="category_input"
+                                    id="category"
+                                    name="category"
                                     value={formData.category}
                                     onChange={(e) => handleInputChange(e, "category")}
                                 ></input>
                             </div>
 
                             <div>
-                                <label htmlFor="tagsPost" className="form-label">
+                                <label htmlFor="tags" className="form-label">
                                     <FontAwesomeIcon icon="fa-solid fa-hashtag" />
                                     <strong> Tags:</strong>
                                 </label>
                                 <div className="row">
                                     {tagsList.map(tag => {
-                                        return <div className="col-3">
+                                        return <div key={tagresol.id} className="col-3">
                                             <label key={tag.id}>
                                                 {tag.name}
 
                                                 <input
                                                     type="checkbox"
-                                                    name="tags_input"
+                                                    id="tags"
+                                                    name="tags"
                                                     value={tag.id}
                                                     onChange={(e) => handleInputChange(e, "tags")}
                                                 ></input>
@@ -180,8 +185,16 @@ export default function MyFormData() {
                             </div>
 
                             <div className="mt-4">
-                                <label htmlFor="publishedPost"><FontAwesomeIcon icon="fa-solid fa-clipboard-check" /><strong> Pubblica</strong></label>
-                                <input type="checkbox" value={formData.published} id="publishedPost" onChange={(e) => handleInputChange(e, "published")} />
+                                <label htmlFor="published">
+                                    <FontAwesomeIcon icon="fa-solid fa-clipboard-check" /><strong> Pubblica</strong>
+                                </label>
+
+                                <input
+                                    type="checkbox"
+                                    value={formData.published}
+                                    id="published"
+                                    name="published"
+                                    onChange={(e) => handleInputChange(e, "published")} />
                             </div>
                         </div>
 
