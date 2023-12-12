@@ -16,6 +16,7 @@ export default function MyFormData() {
 
     const [formData, setFormData] = useState(initialFormData);
     const [formVisible, setFormVisible] = useState(false); // Stato per gestire la visibilità del form
+    const [categoriesList, setCategoriesList] = useState([]);
     const [tagsList, setTagsList] = useState([]);
 
 
@@ -37,15 +38,9 @@ export default function MyFormData() {
         if (key === "tags") {
             // Se la chiave è "tags", gestisco l'array di tag
             setFormData(prev => {
-                let currentTags = [...prev.tags]; // Creo una copia dell'array esistente
-
-                if (checked) {
-                    // Aggiungo il tag se è stato selezionato
-                    currentTags.push(value);
-                } else {
-                    // Rimuovo il tag se è stato deselezionato
-                    currentTags = currentTags.filter(tag => tag !== value);
-                }
+                const currentTags = checked
+                    ? [...prev.tags, value]  // Aggiungo il tag se è stato selezionato
+                    : prev.tags.filter(tag => tag !== value);  // Rimuovo il tag se è stato deselezionato
 
                 // Restituisco il nuovo stato
                 return {
@@ -53,8 +48,17 @@ export default function MyFormData() {
                     [key]: currentTags
                 };
             });
+        } else if (key === "category") {
+            // Se la chiave è "category", gestisco la categoria
+            setFormData(prev => {
+                // Restituisco il nuovo stato con la nuova categoria
+                return {
+                    ...prev,
+                    [key]: value
+                };
+            });
         } else {
-            // Se la chiave non è "tags", gestisco normalmente
+            // Se la chiave non è né "tags" né "category", gestisco normalmente
             setFormData(prev => {
                 return {
                     ...prev,
@@ -62,6 +66,12 @@ export default function MyFormData() {
                 };
             });
         }
+    }
+
+
+    async function fetchCategories() {
+        const categories = await (await fetch("http://localhost:3000/categories")).json();
+        setCategoriesList(categories);
     }
 
     async function fetchTags() {
@@ -72,6 +82,7 @@ export default function MyFormData() {
 
     // invoco la funzione fetch alla "creazione" del componente
     useEffect(() => {
+        fetchCategories();
         fetchTags();
     }, []);
 
@@ -149,15 +160,21 @@ export default function MyFormData() {
                                     <FontAwesomeIcon icon="fa-solid fa-certificate" />
                                     <strong> Categoria:</strong>
                                 </label><br />
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Inserisci la categoria"
+                                <select
                                     id="category"
                                     name="category"
                                     value={formData.category}
                                     onChange={(e) => handleInputChange(e, "category")}
-                                ></input>
+                                >
+                                    <option value="">Seleziona una categoria</option>
+                                    {categoriesList.map(category => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div>
